@@ -1,0 +1,18 @@
+# Minimal Mergify config for the authz lab: defines a merge queue so
+# /merge-queue/pause (and freeze/dequeue) have a real target to act on.
+# Validate before relying on it:  mergify config validate   (CLI)
+#   or POST /v1/repos/{owner}/{repo}/configuration-simulator
+# Schema evolves; adjust to the current dashboard-suggested template if validation complains.
+
+queue_rules:
+  - name: default
+    merge_conditions: []
+
+pull_request_rules:
+  - name: Queue PRs labeled mergify-queue
+    conditions:
+      - base = main
+      - label = mergify-queue
+    actions:
+      queue:
+        name: default
